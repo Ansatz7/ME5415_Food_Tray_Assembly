@@ -29,7 +29,7 @@ cadFilePath = 'CAD/'
 
 # ── Gripper configuration ────────────────────────────────────────────────────
 NUM_FINGERS = 5          # 5-finger layout (reference used 3)
-FINGER_RADIUS = 50       # mm, radial distance from centre to finger base
+FINGER_RADIUS = 55       # mm, radial distance from centre to finger base
 PRESSURE_LIMITS = (0.0, 20.0)   # cable displacement limits (mm)
 INFLATE_INCREMENT = 1.0  # mm of cable pull per keypress
 MOVE_INCREMENT = 1.0
@@ -97,8 +97,8 @@ def add_plane(rootNode, grid_scale=1.2):
     grid_scale : scale of the visual grid (1.0 = original, 2.0 = double size)
     """
     # ── Collision: invisible flat quad, no holes ──────────────────────────────
-    half = 200   # mm half-size of collision quad
-    z_col = -2   # raised to match visual grid top surface
+    half = 200   # mm half-size of collision quad (800×800 mm total)
+    z_col = 0   # raised to match visual grid top surface
     flat_verts = [[-half, -half, z_col], [half, -half, z_col],
                   [half,  half, z_col],  [-half, half, z_col]]
     flat_tris  = [[0, 1, 2], [0, 2, 3]]
@@ -177,7 +177,7 @@ def add_gripper_disc(rootNode, disc_r=65, inner_r=10, z=100, thickness=10, N=48)
 def createScene(rootNode):
     add_plugins(rootNode)
     add_pipelines(rootNode)
-    add_plane(rootNode)
+    add_plane(rootNode, grid_scale=2)
     add_camera(rootNode, [20, -300, 150])
     # ── Gripper ──────────────────────────────────────────────────────────────
     add_gripper(rootNode, NUM_FINGERS, FINGER_RADIUS)
@@ -187,8 +187,8 @@ def createScene(rootNode):
     # Roundish objects — good for 4-finger wrap grasp
     # add_meatball(rootNode,    [ 0 -15, 20], 0.01)    # 20 g — default demo
 
-    add_meatball(rootNode, [0, -20, 20], 0.005, scale=1.1)
-    # add_brocolli(rootNode,  [0,  0,  20], 0.02)    # 20 g
+    # add_meatball(rootNode, [0, -20, 20], 0.005, scale=1.1)
+    add_brocolli(rootNode,  [0,  0,  5], 0.02, scale=1.0)    # 20 g
     # add_cookie(rootNode,    [-20,   0,  5], 0.010)   # 10 g
 
     # Elongated objects — demonstrate lateral compliance
@@ -214,7 +214,7 @@ def createScene(rootNode):
     rootNode.addObject('VisualStyle', displayFlags=(
         'showVisualModels hideBehaviorModels hideCollisionModels '
         'hideBoundingCollisionModels hideForceFields '
-        'showInteractionForceFields hideWireframe'
+        'hideInteractionForceFields hideWireframe'
     ))
     rootNode.findData('gravity').value = [0, 0, -9810]
     return rootNode

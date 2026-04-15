@@ -161,22 +161,22 @@ def add_deformable_object(rootNode, position:list, mass:float, scale:float,
     visualisation.addObject('BarycentricMapping')
     return deformableObject
 
-def add_brocolli(rootNode, position:list, mass:float):
+def add_brocolli(rootNode, position:list, mass:float, scale:float=1.0):
     '''Adds deformable brocolli to scene to pickup'''
 
     youngModulusBrocolli = 30 # 30 MPa
     poissonRatioBrocolli = 0.3
 
-    add_deformable_object(rootNode, position, mass, scale=1.0, modulus=youngModulusBrocolli, poissonRatio=poissonRatioBrocolli, 
+    add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngModulusBrocolli, poissonRatio=poissonRatioBrocolli,
                           vtk_path='broccoli.vtk', stl_path='broccoli.stl', colour=[0, 1, 0, 1], name='broccoli', modelPositionCorrection=[-25, -25, 0])
 
-def add_sausage(rootNode, position:list, mass:float):
+def add_sausage(rootNode, position:list, mass:float, scale:float=0.5):
     '''Adds deformable sausage to scene to pickup'''
 
     youngModulusSausage = 1.85 # 1.85 MPa
     poissonRatioSausage = 0.49
 
-    add_deformable_object(rootNode, position, mass, scale=0.5, modulus=youngModulusSausage, poissonRatio=poissonRatioSausage, 
+    add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngModulusSausage, poissonRatio=poissonRatioSausage,
                           vtk_path='sausage.vtk', stl_path='sausage.stl', colour=[1.0, 0, 0, 1], name='sausage')
     
 
@@ -190,22 +190,22 @@ def add_meatball(rootNode, position:list, mass:float, scale:float=1.0):
                           vtk_path='meatball.vtk', stl_path='meatball.stl', colour=[1.0, 0, 0, 1], name='meatball', modelPositionCorrection=[-13, 0, -11])
     
 
-def add_carrot(rootNode, position:list, mass:float):
+def add_carrot(rootNode, position:list, mass:float, scale:float=0.6):
     '''Adds deformable carrot to scene to pickup'''
 
     youngsModulus = 3.0 # 7 MPa
     poissonRatio = 0.4
 
-    add_deformable_object(rootNode, position, mass, scale=0.6, modulus=youngsModulus, poissonRatio=poissonRatio, 
-                          vtk_path='carrot.vtk', stl_path='carrot.stl', colour=[0.9, 0.6, 0, 1], name='carrot', modelPositionCorrection=[-15, -15,0]) 
-    
-def add_green_beans(rootNode, position:list, mass:float):
+    add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngsModulus, poissonRatio=poissonRatio,
+                          vtk_path='carrot.vtk', stl_path='carrot.stl', colour=[0.9, 0.6, 0, 1], name='carrot', modelPositionCorrection=[-15, -15,0])
+
+def add_green_beans(rootNode, position:list, mass:float, scale:float=0.15):
     '''Adds deformable bean to scene to pickup'''
 
     youngsModulus = 9 # 9 MPa
     poissonRatio = 0.4
 
-    add_deformable_object(rootNode, position, mass, scale=0.15, modulus=youngsModulus, poissonRatio=poissonRatio, 
+    add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngsModulus, poissonRatio=poissonRatio,
                         vtk_path='bean.vtk', stl_path='bean.stl', colour=[0, 1.0, 0, 1], name='bean') 
 
     # for y in range(0, 6, 5):
@@ -223,22 +223,22 @@ def add_green_beans(rootNode, position:list, mass:float):
     #                     vtk_path='bean.vtk', stl_path='bean.stl', colour=[1.0, 0, 0, 1], name='bean') 
 
 
-def add_cookie(rootNode, position:list, mass:float):
+def add_cookie(rootNode, position:list, mass:float, scale:float=0.6):
     '''Adds deformable cookie to scene to pickup'''
 
     youngsModulus = 180.0 # 80 MPa
     poissonRatio = 0.4
 
-    add_deformable_object(rootNode, position, mass, scale=0.6, modulus=youngsModulus, poissonRatio=poissonRatio, 
-                          vtk_path='cookie.vtk', stl_path='cookie.stl', colour=[1, 0.8, .2, 1], name='cookie', modelPositionCorrection=[0,-23,0]) 
+    add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngsModulus, poissonRatio=poissonRatio,
+                          vtk_path='cookie.vtk', stl_path='cookie.stl', colour=[1, 0.8, .2, 1], name='cookie', modelPositionCorrection=[0,-23,0])
 
-def add_spaghetti(rootNode, position:list, mass:float):
+def add_spaghetti(rootNode, position:list, mass:float, scale:float=3.0):
     '''Adds deformable spaghetti to scene to pickup'''
 
     youngsModulus = 1.3 # 1.3 MPa
     poissonRatio = 0.4
 
-    add_deformable_object(rootNode, position, mass, scale=3.0, modulus=youngsModulus, poissonRatio=poissonRatio, 
+    add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngsModulus, poissonRatio=poissonRatio,
                           vtk_path='spaghetti.vtk', stl_path='spaghetti.stl', colour=[1.0, 1.0, 0.3, 1], name='spaghetti', modelPositionCorrection=[-2,0,-2]) 
 
     # newPosition = [position[0]+3, position[1], position[2]]             
@@ -249,21 +249,21 @@ def add_spaghetti(rootNode, position:list, mass:float):
     # add_deformable_object(rootNode, newPosition, mass, scale=1.0, modulus=youngsModulus, poissonRatio=poissonRatio, 
     #                       vtk_path='spaghetti.vtk', stl_path='spaghetti.stl', colour=[1.0, 1.0, 0.3, 1], name='spaghetti') 
 
-def add_orangeJuice(rootNode, position:list, mass:float):
+def add_orangeJuice(rootNode, position:list, mass:float, scale:float=0.5):
     '''Adds deformable orangeJuice to scene to pickup'''
 
     youngsModulus = 2000.0 # 2000 MPa
     poissonRatio = 0.4
 
-    add_deformable_object(rootNode, position, mass, scale=0.5, modulus=youngsModulus, poissonRatio=poissonRatio, 
-                          vtk_path='cup.vtk', stl_path='cup.stl', colour=[1, 0.8, .2, 1], name='orangeJuice', modelPositionCorrection=[-23,24,0], rotation=[90,0,0]) 
-    
+    add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngsModulus, poissonRatio=poissonRatio,
+                          vtk_path='cup.vtk', stl_path='cup.stl', colour=[1, 0.8, .2, 1], name='orangeJuice', modelPositionCorrection=[-23,24,0], rotation=[90,0,0])
 
-def add_eggs(rootNode, position:list, mass:float):
+
+def add_eggs(rootNode, position:list, mass:float, scale:float=1.0):
     '''Adds deformable eggs to scene to pickup'''
 
     youngsModulus = 0.045 # 45 KPa
     poissonRatio = 0.4
 
-    add_deformable_object(rootNode, position, mass, scale=1.0, modulus=youngsModulus, poissonRatio=poissonRatio, 
-                          vtk_path='eggs.vtk', stl_path='eggs.stl', colour=[1, 1.0, 0.0, 1], name='eggs', modelPositionCorrection=[-12,0,0]) 
+    add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngsModulus, poissonRatio=poissonRatio,
+                          vtk_path='eggs.vtk', stl_path='eggs.stl', colour=[1, 1.0, 0.0, 1], name='eggs', modelPositionCorrection=[-12,0,0])
