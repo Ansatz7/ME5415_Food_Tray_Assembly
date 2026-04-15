@@ -29,8 +29,8 @@ cadFilePath = 'CAD/'
 
 # ── Gripper configuration ────────────────────────────────────────────────────
 NUM_FINGERS = 2          # 5-finger layout (reference used 3)
-FINGER_RADIUS = 100       # mm, radial distance from centre to finger base
-PRESSURE_LIMITS = (0.0, 40.0)   # cable displacement limits (mm)
+FINGER_RADIUS = 50       # mm, radial distance from centre to finger base
+PRESSURE_LIMITS = (0.0, 20.0)   # cable displacement limits (mm)
 INFLATE_INCREMENT = 1.0  # mm of cable pull per keypress
 MOVE_INCREMENT = 1.0
 # ─────────────────────────────────────────────────────────────────────────────
@@ -180,7 +180,7 @@ def createScene(rootNode):
     add_plane(rootNode)
     add_camera(rootNode, [20, -300, 150])
     # ── Gripper ──────────────────────────────────────────────────────────────
-    add_gripper(rootNode, NUM_FINGERS)
+    add_gripper(rootNode, NUM_FINGERS, FINGER_RADIUS)
     # add_gripper_disc(rootNode)   # visual mount plate connecting finger bases
 
     # ── Food objects (uncomment to add to scene) ──────────────────────────────

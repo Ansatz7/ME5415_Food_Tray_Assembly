@@ -37,10 +37,13 @@ class WholeGripperController(Sofa.Core.Controller):
         self.numGrippers = numGrippers
 
         self.pull_points = []   # track pullPoint world positions for move_gripper
+        self.cable_dofs = []    # cable1 MechanicalObjects for direct sync
         for i in range(1, 1+self.numGrippers):
-            self.dofs.append(self.node.gripper.getChild(f'finger{i}').getMechanicalState())
-            cc = self.node.gripper.getChild(f'finger{i}').cables.cable1.CableConstraint
+            finger = self.node.gripper.getChild(f'finger{i}')
+            self.dofs.append(finger.getMechanicalState())
+            cc = finger.cables.cable1.CableConstraint
             self.constraints.append(cc)
+            self.cable_dofs.append(finger.cables.cable1.getMechanicalState())
             try:
                 self.pull_points.append(list(cc.pullPoint.value))
             except Exception:
@@ -56,6 +59,7 @@ class WholeGripperController(Sofa.Core.Controller):
 
         self.inflateIncrement = inflateIncrement
         self.moveIncrement = moveIncrement
+        self._pending_pull_delta = None   # deferred pullPoint update
 
         # Disc visual DOF reference — stored at init so path errors surface immediately
         try:
@@ -68,21 +72,36 @@ class WholeGripperController(Sofa.Core.Controller):
         return
 
     def move_gripper(self, dx, dy, dz):
-        """Translate all finger rest positions, cable pullPoints, disc, and camera by (dx, dy, dz)."""
+        """Translate the whole gripper by (dx, dy, dz) in a single synchronous update.
+
+        Three things must move together in the SAME frame to keep the cable
+        constraint stable:
+          1. FEM positions + rest positions (teleport the deformable body)
+          2. Cable routing MechanicalObject positions (avoids the 1-step
+             BarycentricMapping lag that would make the constraint see a
+             spurious length change and pull the finger tip)
+          3. CableConstraint pullPoint (the cable anchor/winch)
+        Velocity is intentionally preserved so the FEM's existing dynamics
+        (deformed state, etc.) are not disrupted.
+        """
         delta = np.array([dx, dy, dz])
 
-        # Move each finger's spring anchor
-        for dof in self.dofs:
-            rest = np.array(dof.rest_position.value)
-            rest += delta
-            dof.rest_position.value = rest.tolist()
+        for i, dof in enumerate(self.dofs):
+            # 1. Teleport FEM mesh
+            dof.position.value     = (np.array(dof.position.value)     + delta).tolist()
+            dof.rest_position.value = (np.array(dof.rest_position.value) + delta).tolist()
 
-        # Move each cable's pullPoint so the cable anchor follows the gripper
-        for i, cc in enumerate(self.constraints):
+            # 2. Teleport cable routing points so BarycentricMapping lag is zero
+            cdof = self.cable_dofs[i]
+            cdof.position.value = (np.array(cdof.position.value) + delta).tolist()
+
+            # 3. Update pullPoint anchor
             pp = self.pull_points[i]
             new_pp = [pp[0] + dx, pp[1] + dy, pp[2] + dz]
-            cc.pullPoint.value = new_pp
+            self.constraints[i].pullPoint.value = new_pp
             self.pull_points[i] = new_pp
+
+        self._pending_pull_delta = None  # clear any stale deferred update
 
         # Move the mount-plate disc via MechanicalObject → IdentityMapping → OglModel
         if self.disc_dofs is not None:

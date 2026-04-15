@@ -17,7 +17,7 @@ CableHeight    = 17.75      # mm
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Gripper layout ────────────────────────────────────────────────────────────
-radius  = 30    # mm — radial distance from gripper axis to each finger base
+radius  = 30    # mm — default radial distance; overridden by add_gripper(finger_radius=...)
 zHeight = 125   # mm — height of finger bases above table
 #   SensorFinger total length ≈ 3 × Length = 120 mm (extends downward along –Z)
 #   Finger tips will sit at z ≈ zHeight − 120 = 5 mm (just above the table / food)
@@ -26,15 +26,15 @@ zHeight = 125   # mm — height of finger bases above table
 cadFilePath = 'CAD/'
 
 
-def _compute_finger_layout(numFingers: int):
+def _compute_finger_layout(numFingers: int, r: float):
     """
-    Evenly-spaced finger positions on a circle of `radius` in the XY plane.
+    Evenly-spaced finger positions on a circle of radius `r` in the XY plane.
     Returns (translations, angles):
       translations[i] = [tx, ty, zHeight]   (world-space finger base positions)
       angles[i]       = θ_i  (radians, measured from +Y axis, CCW)
     """
     angles = [i * 2 * math.pi / numFingers for i in range(numFingers)]
-    translations = [[radius * math.sin(a), radius * math.cos(a), zHeight]
+    translations = [[r * math.sin(a), r * math.cos(a), zHeight]
                     for a in angles]
     return translations, angles
 
@@ -48,7 +48,7 @@ def _rz_deg(p, angle_deg):
             p[2]]
 
 
-def add_gripper(rootNode, numGrippers: int = 5):
+def add_gripper(rootNode, numGrippers: int = 5, finger_radius: float = radius):
     """
     Add a cable-driven SensorFinger gripper to the SOFA scene.
 
@@ -69,7 +69,7 @@ def add_gripper(rootNode, numGrippers: int = 5):
     z ≈ zHeight).  RestShapeSpringsForceField holds them at their rest position.
     GripperController updates rest_position to translate the whole gripper.
     """
-    translations, angles = _compute_finger_layout(numGrippers)
+    translations, angles = _compute_finger_layout(numGrippers, finger_radius)
     gripper = rootNode.addChild('gripper')
 
     # Pre-compute cable routing geometry (same for every finger, in local frame)
