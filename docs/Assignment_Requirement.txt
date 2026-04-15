@@ -1,0 +1,14 @@
+The primary goal of the design project is to generate innovative ideas in soft robotics by applying the knowledge acquired from our courses. The project emphasizes the unique aspects of soft robots, such as resilience, body compliance, delicate contact, and deformability.
+
+Team Composition: We strongly encourage randomly formed teams to ensure a diverse mix of students in terms of academic background and other criteria. It is also recommended to appoint a Team Leader (TL) to act as the main point of contact for each team.
+
+Design Topics: The design project centers on practical applications of soft robots, specifically targeting three challenges: “food handling for tray preparation”, “in-pipe locomotion”, and soft robotic control using the Emio robot (https://compliance-robotics.com/compliance-lab/Links to an external site., 5 kits available). These challenges are designed to reflect and utilize the advancements in soft robotics over the last decade. The detailed rule book is uploaded to Files->Design Project->Rule Book for the Design Project.pdf, please check.
+
+Submissions: A physical prototype of the design is not mandatory for all teams; however, CAD models and simulations are essential to demonstrate the functionality and effectiveness of the proposed designs in addressing the chosen challenges. Each team is required to submit a report in the format of a 6-page research paper.
+
+我们选择food handling for tray preparation 方向， 找到了前任学长做的：
+https://github.com/yonx30/ME5415_Food_Gripper
+想先快速尝试复刻
+
+他们有更源头的参考：
+https://github.com/SofaDefrost/SoftRobots/tree/master/examples/tutorials/PneunetGripper

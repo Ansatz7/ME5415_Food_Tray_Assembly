@@ -1,0 +1,19 @@
+# Claude Code local memory
+.claude/
+
+# SOFA Framework binaries (too large for git, download via setup)
+sofa/SOFA_v*/
+sofa/*.zip
+sofa/*.run
+
+# Reference repos (read-only, managed separately)
+refs/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# SOFA output files
+*.log
+*.csv
