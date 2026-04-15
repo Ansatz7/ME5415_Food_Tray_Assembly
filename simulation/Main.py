@@ -28,11 +28,11 @@ from Gripper import add_gripper
 cadFilePath = 'CAD/'
 
 # ── Gripper configuration ────────────────────────────────────────────────────
-NUM_FINGERS = 5          # 5-finger layout (reference used 3)
-FINGER_RADIUS = 55       # mm, radial distance from centre to finger base
-PRESSURE_LIMITS = (0.0, 20.0)   # cable displacement limits (mm)
-INFLATE_INCREMENT = 1.0  # mm of cable pull per keypress
-MOVE_INCREMENT = 1.0
+NUM_FINGERS = 4          # 5-finger layout (reference used 3)
+FINGER_RADIUS = 60       # mm, radial distance from centre to finger base
+PRESSURE_LIMITS = (0.0, 30.0)   # cable displacement limits (mm)
+INFLATE_INCREMENT = 0.5  # mm of cable pull per keypress
+MOVE_INCREMENT = 0.5
 # ─────────────────────────────────────────────────────────────────────────────
 
 
@@ -214,7 +214,7 @@ def createScene(rootNode):
     rootNode.addObject('VisualStyle', displayFlags=(
         'showVisualModels hideBehaviorModels hideCollisionModels '
         'hideBoundingCollisionModels hideForceFields '
-        'hideInteractionForceFields hideWireframe'
+        'showInteractionForceFields hideWireframe'
     ))
     rootNode.findData('gravity').value = [0, 0, -9810]
     return rootNode
