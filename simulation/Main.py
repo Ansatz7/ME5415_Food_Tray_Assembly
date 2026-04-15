@@ -28,7 +28,7 @@ from Gripper import add_gripper
 cadFilePath = 'CAD/'
 
 # ── Gripper configuration ────────────────────────────────────────────────────
-NUM_FINGERS = 2          # 5-finger layout (reference used 3)
+NUM_FINGERS = 5          # 5-finger layout (reference used 3)
 FINGER_RADIUS = 50       # mm, radial distance from centre to finger base
 PRESSURE_LIMITS = (0.0, 20.0)   # cable displacement limits (mm)
 INFLATE_INCREMENT = 1.0  # mm of cable pull per keypress
