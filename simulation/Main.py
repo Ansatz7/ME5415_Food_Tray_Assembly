@@ -2,21 +2,21 @@
 ME5415 Advanced Soft Robotics - Food Tray Assembly
 NUS, AY2025/26
 
-Simulation of a pneumatic soft gripper (PneuNet) for food handling.
+Simulation of a cable-driven bellows soft gripper (SensorFinger) for food handling.
 Built on SOFA Framework v23.06 + SoftRobots plugin.
 
 Modifications from reference (yonx30/ME5415_Food_Gripper):
   - 5-finger gripper layout (vs 3-finger) for improved stability on flat foods
-  - Expanded default food scene: meatball + broccoli side-by-side
-  - Lower default pressure increment for finer control
+  - SensorFinger (bellows + cable) design instead of PneuNet (pneumatic chambers)
+  - Cable actuation via CableConstraint (vs SurfacePressureConstraint)
   - Camera angle adjusted for better overhead view
 
 Controls:
-  CTRL + ↑ / ↓        : Move gripper forward / backward (y-axis)
-  CTRL + ← / →        : Move gripper left / right       (x-axis)
-  CTRL + U / J         : Move gripper up / down          (z-axis)
-  CTRL + Space         : Inflate (close) gripper
-  CTRL + Minus (-)     : Deflate (open) gripper
+  ↑ / ↓               : Move gripper forward / backward (y-axis)
+  ← / →               : Move gripper left / right       (x-axis)
+  U / J                : Move gripper up / down          (z-axis)
+  Space                : Pull cable (close gripper)
+  Minus (-)            : Release cable (open gripper)
 """
 
 import Sofa
@@ -28,10 +28,10 @@ from Gripper import add_gripper
 cadFilePath = 'CAD/'
 
 # ── Gripper configuration ────────────────────────────────────────────────────
-NUM_FINGERS = 5          # 5-finger layout (reference used 3)
-FINGER_RADIUS = 30       # mm, radial distance from centre to finger base
-PRESSURE_LIMITS = (-0.6, 5.0)
-INFLATE_INCREMENT = 0.15  # finer step than reference (0.2)
+NUM_FINGERS = 2          # 5-finger layout (reference used 3)
+FINGER_RADIUS = 100       # mm, radial distance from centre to finger base
+PRESSURE_LIMITS = (0.0, 40.0)   # cable displacement limits (mm)
+INFLATE_INCREMENT = 1.0  # mm of cable pull per keypress
 MOVE_INCREMENT = 1.0
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -229,11 +229,11 @@ def main():
     try:
         f1_roi = root.gripper.finger1.boxROI
         n_fixed = len(f1_roi.indices.value)
-        print(f"[INFO] BoxROI fixed indices count: {n_fixed}")
+        print(f"[INFO] BoxROI base indices: {n_fixed}")
         if n_fixed == 0:
-            print("[WARNING] BoxROI returned 0 indices — FixedConstraint is empty, fingers will fall!")
+            print("[WARNING] BoxROI returned 0 indices — fingers will fall!")
         else:
-            print(f"[INFO] FixedConstraint OK — first 5 indices: {list(f1_roi.indices.value)[:5]}")
+            print(f"[INFO] Base fixation OK — first 5 indices: {list(f1_roi.indices.value)[:5]}")
     except Exception as e:
         print(f"[WARNING] Could not check BoxROI: {e}")
     # ─────────────────────────────────────────────────────────────────────────

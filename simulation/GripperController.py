@@ -36,9 +36,15 @@ class WholeGripperController(Sofa.Core.Controller):
 
         self.numGrippers = numGrippers
 
+        self.pull_points = []   # track pullPoint world positions for move_gripper
         for i in range(1, 1+self.numGrippers):
             self.dofs.append(self.node.gripper.getChild(f'finger{i}').getMechanicalState())
-            self.constraints.append(self.node.gripper.getChild(f'finger{i}').cavity.SurfacePressureConstraint)
+            cc = self.node.gripper.getChild(f'finger{i}').cables.cable1.CableConstraint
+            self.constraints.append(cc)
+            try:
+                self.pull_points.append(list(cc.pullPoint.value))
+            except Exception:
+                self.pull_points.append([0.0, 0.0, 0.0])
 
         self.plane = self.node.Plane.getMechanicalState()
 
@@ -62,7 +68,7 @@ class WholeGripperController(Sofa.Core.Controller):
         return
 
     def move_gripper(self, dx, dy, dz):
-        """Translate all finger rest positions, disc, and camera by (dx, dy, dz)."""
+        """Translate all finger rest positions, cable pullPoints, disc, and camera by (dx, dy, dz)."""
         delta = np.array([dx, dy, dz])
 
         # Move each finger's spring anchor
@@ -70,6 +76,13 @@ class WholeGripperController(Sofa.Core.Controller):
             rest = np.array(dof.rest_position.value)
             rest += delta
             dof.rest_position.value = rest.tolist()
+
+        # Move each cable's pullPoint so the cable anchor follows the gripper
+        for i, cc in enumerate(self.constraints):
+            pp = self.pull_points[i]
+            new_pp = [pp[0] + dx, pp[1] + dy, pp[2] + dz]
+            cc.pullPoint.value = new_pp
+            self.pull_points[i] = new_pp
 
         # Move the mount-plate disc via MechanicalObject → IdentityMapping → OglModel
         if self.disc_dofs is not None:

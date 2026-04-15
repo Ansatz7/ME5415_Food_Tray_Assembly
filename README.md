@@ -43,7 +43,7 @@ Requires SOFA v23.06 with SoftRobots plugin. See `setup_env.sh` for paths.
 |-----|--------|
 | `CTRL + ↑ / ↓` | Move gripper forward / backward (y-axis) |
 | `CTRL + ← / →` | Move gripper left / right (x-axis) |
-| `CTRL + R / F` | Move gripper up / down (z-axis) |
+| `CTRL + U / J` | Move gripper up / down (z-axis) |
 | `CTRL + Space` | Close gripper (inflate / pull cable) |
 | `CTRL + -` | Open gripper (deflate / release cable) |
 
