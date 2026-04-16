@@ -28,7 +28,7 @@ from Gripper import add_gripper
 cadFilePath = 'CAD/'
 
 # ── Gripper configuration ────────────────────────────────────────────────────
-NUM_FINGERS = 4          # 5-finger layout (reference used 3)
+NUM_FINGERS = 5          # 5-finger layout (reference used 3)
 FINGER_RADIUS = 60       # mm, radial distance from centre to finger base
 PRESSURE_LIMITS = (0.0, 30.0)   # cable displacement limits (mm)
 INFLATE_INCREMENT = 0.5  # mm of cable pull per keypress
@@ -85,7 +85,7 @@ def add_pipelines(rootNode):
                        response='FrictionContactConstraint',
                        responseParams='mu=1.0')
     rootNode.addObject('LocalMinDistance', name='Proximity',
-                       alarmDistance=10, contactDistance=1, angleCone=0.0)
+                       alarmDistance=10, contactDistance=2, angleCone=0.0)
     rootNode.addObject('BackgroundSetting', color='1 1 1', listening='1')
     rootNode.addObject('OglSceneFrame', style='CubesCones', alignment='TopRight')
 
@@ -97,8 +97,8 @@ def add_plane(rootNode, grid_scale=1.2):
     grid_scale : scale of the visual grid (1.0 = original, 2.0 = double size)
     """
     # ── Collision: invisible flat quad, no holes ──────────────────────────────
-    half = 200   # mm half-size of collision quad (800×800 mm total)
-    z_col = 0   # raised to match visual grid top surface
+    half = 100   # mm half-size of collision quad (800×800 mm total)
+    z_col = 60    # raised +60 mm so gripper operates in stable BarycentricMapping zone
     flat_verts = [[-half, -half, z_col], [half, -half, z_col],
                   [half,  half, z_col],  [-half, half, z_col]]
     flat_tris  = [[0, 1, 2], [0, 2, 3]]
@@ -107,13 +107,13 @@ def add_plane(rootNode, grid_scale=1.2):
     planeNode.addObject('MeshTopology', name='topo',
                         position=flat_verts, triangles=flat_tris)
     planeNode.addObject('MechanicalObject', src='@topo')
-    planeNode.addObject('TriangleCollisionModel', simulated=False, moving=False)
+    planeNode.addObject('TriangleCollisionModel', simulated=False, moving=False, group=2)
 
     # ── Visual: decorative grid mesh ──────────────────────────────────────────
     planeVisu = planeNode.addChild('visu')
     planeVisu.addObject('MeshSTLLoader', name='loader',
                         filename=cadFilePath + 'square_grid.stl',
-                        triangulate=True, scale=grid_scale, translation=[0, 0, -10])
+                        triangulate=True, scale=grid_scale, translation=[0, 0, 50])
     planeVisu.addObject('OglModel', src='@loader', color=[0.5, 0.5, 0.5, 1])
     return rootNode
 
@@ -187,8 +187,8 @@ def createScene(rootNode):
     # Roundish objects — good for 4-finger wrap grasp
     # add_meatball(rootNode,    [ 0 -15, 20], 0.01)    # 20 g — default demo
 
-    # add_meatball(rootNode, [0, -20, 20], 0.005, scale=1.1)
-    add_brocolli(rootNode,  [0,  0,  5], 0.02, scale=1.0)    # 20 g
+    add_meatball(rootNode, [0, -20, 80], 0.005, scale=1.1)
+    # add_brocolli(rootNode,  [0,  0,  5], 0.02, scale=1.0)    # 20 g
     # add_cookie(rootNode,    [-20,   0,  5], 0.010)   # 10 g
 
     # Elongated objects — demonstrate lateral compliance

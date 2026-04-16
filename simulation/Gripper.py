@@ -18,8 +18,8 @@ CableHeight    = 17.75      # mm
 
 # ── Gripper layout ────────────────────────────────────────────────────────────
 radius  = 30    # mm — default radial distance; overridden by add_gripper(finger_radius=...)
-zHeight = 140   # mm — height of finger bases above table
-#   merged_sofa total length ≈ 135 mm (finger body 120 mm + fingernail 15 mm)
+zHeight = 170   # mm — height of finger bases above table (+60 mm platform raise)
+#   finger_sensor total length ≈ 135 mm (finger body 120 mm + fingernail 15 mm)
 #   Finger tips will sit at z ≈ zHeight − 135 = 5 mm (just above the table / food)
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -101,7 +101,7 @@ def add_gripper(rootNode, numGrippers: int = 5, finger_radius: float = radius):
 
         # ── Volumetric FEM mesh ───────────────────────────────────────────────
         finger.addObject('MeshVTKLoader', name='loader',
-                         filename=cadFilePath + 'merged_sofa.vtk',
+                         filename=cadFilePath + 'finger_sensor.vtk',
                          rotation=rotation, translation=[tx, ty, tz])
         finger.addObject('MeshTopology', src='@loader', name='container')
         finger.addObject('MechanicalObject', name='tetras', template='Vec3d')
@@ -147,18 +147,20 @@ def add_gripper(rootNode, numGrippers: int = 5, finger_radius: float = radius):
         # ── Collision model ───────────────────────────────────────────────────
         collisionFinger = finger.addChild('collisionFinger')
         collisionFinger.addObject('MeshSTLLoader', name='loader',
-                                  filename=cadFilePath + 'merged_sofa.stl',
+                                  filename=cadFilePath + 'finger_sensor.stl',
                                   rotation=rotation, translation=[tx, ty, tz])
         collisionFinger.addObject('MeshTopology', src='@loader', name='topo')
         collisionFinger.addObject('MechanicalObject', name='collisMech')
-        collisionFinger.addObject('TriangleCollisionModel', selfCollision=False)
+        collisionFinger.addObject('TriangleCollisionModel', selfCollision=False, group=1)
+        collisionFinger.addObject('LineCollisionModel',     selfCollision=False, group=1)
+        collisionFinger.addObject('PointCollisionModel',    selfCollision=False, group=1)
         collisionFinger.addObject('BarycentricMapping')
 
         # ── Visual model ──────────────────────────────────────────────────────
-        # merged_sofa includes the finger body and fingernail as one mesh
+        # finger_sensor includes the finger body and fingernail as one mesh
         modelVisu = finger.addChild('visu')
         modelVisu.addObject('MeshSTLLoader', name='loader',
-                            filename=cadFilePath + 'merged_sofa.stl',
+                            filename=cadFilePath + 'finger_sensor.stl',
                             rotation=rotation, translation=[tx, ty, tz])
         modelVisu.addObject('OglModel', src='@loader', color=[0.35, 0.60, 0.85, 0.85])
         modelVisu.addObject('BarycentricMapping')
