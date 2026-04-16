@@ -226,7 +226,7 @@ def add_green_beans(rootNode, position:list, mass:float, scale:float=0.15):
 def add_cookie(rootNode, position:list, mass:float, scale:float=0.6):
     '''Adds deformable cookie to scene to pickup'''
 
-    youngsModulus = 180.0 # 80 MPa
+    youngsModulus = 180.0 # 180 MPa
     poissonRatio = 0.4
 
     add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngsModulus, poissonRatio=poissonRatio,
@@ -262,7 +262,7 @@ def add_orangeJuice(rootNode, position:list, mass:float, scale:float=0.5):
 def add_eggs(rootNode, position:list, mass:float, scale:float=1.0):
     '''Adds deformable eggs to scene to pickup'''
 
-    youngsModulus = 0.045 # 45 KPa
+    youngsModulus = 0.45 # 0.45 MPa
     poissonRatio = 0.4
 
     add_deformable_object(rootNode, position, mass, scale=scale, modulus=youngsModulus, poissonRatio=poissonRatio,
