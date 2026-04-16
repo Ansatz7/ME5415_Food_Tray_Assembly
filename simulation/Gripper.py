@@ -18,9 +18,9 @@ CableHeight    = 17.75      # mm
 
 # ── Gripper layout ────────────────────────────────────────────────────────────
 radius  = 30    # mm — default radial distance; overridden by add_gripper(finger_radius=...)
-zHeight = 170   # mm — height of finger bases above table (+60 mm platform raise)
+zHeight = 175   # mm — height of finger bases above table (+60 mm platform raise)
 #   finger_sensor total length ≈ 135 mm (finger body 120 mm + fingernail 15 mm)
-#   Finger tips will sit at z ≈ zHeight − 135 = 5 mm (just above the table / food)
+#   Finger tips will sit at z ≈ zHeigh135 = 5 mm (just above the table / food)
 # ─────────────────────────────────────────────────────────────────────────────
 
 cadFilePath = 'CAD/'

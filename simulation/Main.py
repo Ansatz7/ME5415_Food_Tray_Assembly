@@ -76,7 +76,7 @@ def add_pipelines(rootNode):
     rootNode.addObject('FreeMotionAnimationLoop')
     rootNode.addObject('CompositingVisualLoop')
     rootNode.addObject('GenericConstraintSolver', name='GCS',
-                       tolerance=1e-9, maxIterations=1000,
+                       tolerance=1e-9, maxIterations=50,
                        computeConstraintForces=True)
     rootNode.addObject('CollisionPipeline')
     rootNode.addObject('BruteForceBroadPhase')
@@ -85,7 +85,7 @@ def add_pipelines(rootNode):
                        response='FrictionContactConstraint',
                        responseParams='mu=1.0')
     rootNode.addObject('LocalMinDistance', name='Proximity',
-                       alarmDistance=10, contactDistance=2, angleCone=0.0)
+                       alarmDistance=8, contactDistance=2, angleCone=0.0)
     rootNode.addObject('BackgroundSetting', color='1 1 1', listening='1')
     rootNode.addObject('OglSceneFrame', style='CubesCones', alignment='TopRight')
 
@@ -187,19 +187,19 @@ def createScene(rootNode):
     # Roundish objects — good for 4-finger wrap grasp
     # add_meatball(rootNode,    [ 0 -15, 20], 0.01)    # 20 g — default demo
 
-    add_meatball(rootNode, [0, -20, 80], 0.005, scale=1.1)
-    # add_brocolli(rootNode,  [0,  0,  5], 0.02, scale=1.0)    # 20 g
-    # add_cookie(rootNode,    [-20,   0,  5], 0.010)   # 10 g
+    # add_meatball(rootNode, [0, -20, 80], 0.005, scale=1.1)
+    # add_brocolli(rootNode,  [0,  0,  80], 0.02, scale=1.0)    # 20 g
+    # add_cookie(rootNode,    [-20,   0,  80], 0.010)   # 10 g
 
     # Elongated objects — demonstrate lateral compliance
-    # add_sausage(rootNode,   [-55, -72, 10], 0.007)  # 70 g
-    # add_carrot(rootNode,    [20, -100,  5], 0.1)    # 100 g
-    # add_green_beans(rootNode, [15,  0,  5], 0.0000132)
+    # add_sausage(rootNode,   [-55, -72, 80], 0.007)  # 70 g
+    # add_carrot(rootNode,    [0,  -40,  80], 0.1, scale=0.5)    # 100 g
+    # add_green_beans(rootNode, [0,  0,  80], 0.001, scale=0.2)
 
     # Delicate / unusual objects
     # add_spaghetti(rootNode, [15,  0,  1], 0.001)    # 1 g
-    # add_eggs(rootNode,      [-16, -16, 0.05], 0.005)  # 5 g
-    # add_orangeJuice(rootNode, [0, 0,  0], 0.300)   # 300 g (cup + juice)
+    # add_eggs(rootNode,      [-16, -16, 80], 0.005)  # 5 g
+    # add_orangeJuice(rootNode, [0, 0,  80], 0.300)   # 300 g (cup + juice)
     # ─────────────────────────────────────────────────────────────────────────
 
     controller = WholeGripperController(
