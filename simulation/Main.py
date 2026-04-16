@@ -187,7 +187,7 @@ def createScene(rootNode):
     # Roundish objects — good for 4-finger wrap grasp
     # add_meatball(rootNode,    [ 0 -15, 20], 0.01)    # 20 g — default demo
 
-    # add_meatball(rootNode, [0, -20, 80], 0.005, scale=1.1)
+    add_meatball(rootNode, [0, -20, 80], 0.005, scale=1.1)
     # add_brocolli(rootNode,  [0,  0,  80], 0.02, scale=1.0)    # 20 g
     # add_cookie(rootNode,    [-20,   0,  80], 0.010)   # 10 g
 
@@ -197,7 +197,7 @@ def createScene(rootNode):
     # add_green_beans(rootNode, [0,  0,  80], 0.001, scale=0.2)
 
     # Delicate / unusual objects
-    # add_spaghetti(rootNode, [15,  0,  1], 0.001)    # 1 g
+    # add_spaghetti(rootNode,  [9,  -60,  80], 0.001)    # 1 g
     # add_eggs(rootNode,      [-16, -16, 80], 0.005)  # 5 g
     # add_orangeJuice(rootNode, [0, 0,  80], 0.300)   # 300 g (cup + juice)
     # ─────────────────────────────────────────────────────────────────────────
