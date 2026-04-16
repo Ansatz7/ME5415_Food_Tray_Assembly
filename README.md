@@ -28,6 +28,14 @@ Finger mesh: `simulation/CAD/finger_sensor.vtk` / `finger_sensor.stl` (original 
 
 ---
 
+## Demo
+
+https://github.com/Ansatz7/ME5415_Food_Tray_Assembly/raw/master/docs/demo.mp4
+
+*2× speed, trimmed from 13 s — gripper picks up meatball, broccoli, cookie, sausage, green beans, eggs, and orange juice cup.*
+
+---
+
 ## Quick Start
 
 ```bash
@@ -52,11 +60,11 @@ Requires SOFA v23.06 with SoftRobots plugin. See `setup_env.sh` for paths.
 | `Ctrl + ↑ / ↓` | Move gripper forward / backward (y-axis) |
 | `Ctrl + ← / →` | Move gripper left / right (x-axis) |
 | `Ctrl + U / J` | Move gripper up / down (z-axis) |
-| `Space` | Pull cable — close gripper |
-| `-` (minus) | Release cable — open gripper |
+| `Ctrl + Space` | Pull cable — close gripper |
+| `Ctrl + -` (minus) | Release cable — open gripper |
 
 ---
-
+ 
 ## Food Objects Supported
 
 Uncomment the relevant line in `simulation/Main.py` to add to scene.  
