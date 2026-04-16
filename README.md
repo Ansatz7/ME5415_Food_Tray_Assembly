@@ -24,15 +24,15 @@ Key design decisions vs. the reference project ([yonx30/ME5415_Food_Gripper](htt
 
 The SensorFinger design uses a bellows-style geometry with a dorsal cable tendon. Pulling the cable shortens the outer surface and curls the finger tip inward, producing a compliant power grasp suitable for delicate food objects.
 
-Finger mesh: `simulation/CAD/finger_sensor.vtk` / `finger_sensor.stl` (original SensorFinger geometry).
+Finger mesh: `simulation/CAD/finger_sensor.vtk` / `finger_sensor.stl`.
 
 ---
 
 ## Demo
 
-https://github.com/Ansatz7/ME5415_Food_Tray_Assembly/raw/master/docs/demo.mp4
+![demo](docs/demo.gif)
 
-*2× speed, trimmed from 13 s — gripper picks up meatball, broccoli, cookie, sausage, green beans, eggs, and orange juice cup.*
+*2× speed, gripper picks up meatball.*
 
 ---
 
